@@ -1,0 +1,31 @@
+/*button{
+    margin-left: 5px;
+}
+label{
+    margin-left: 5px;
+}
+input{
+    margin-left: 5px;
+}
+*/
+.greylabel {
+    background-color:rgb(238, 234, 234);
+    margin-right: 5px;
+    
+    text-align: left;
+    vertical-align: middle;
+    display: flex;
+    justify-content: left;
+    align-items: left;
+}
+.defaultbutton{
+    width:200px;
+}
+.mainseparator{
+    display:block;
+    border-color:blue;
+    width: 100%;
+}
+.cenallign{
+    vertical-align: bottom;
+}

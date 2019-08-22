@@ -1,0 +1,114 @@
+<br>
+<h4>
+  <div class="container">
+    <div *ngIf="submitErr" class="alert alert-danger">
+      {{submitErr}}
+    </div>
+
+    <form class="form-horizontal">
+      <div class="form-group row">
+        <label  for="pname">Project :</label>
+        <input type="text" id="pname" name="pname" required [(ngModel)]="project.ProjectName">
+      </div>
+      <div class="form-group row">
+        <label ></label>
+        <div >
+          <input type="checkbox" id="setDate" name="setDate" [(ngModel)]="setDate">
+        </div>
+        <p class="cenallign">Set Start and End Date</p>
+        <br/>
+        <input type="date" id="sdate" class="m-2" name="sdate" placeholder="Start Date" [disabled] = "!setDate" [ngModel]="project.StartDate | date: 'yyyy-MM-dd'">
+        <input type="date" id="edate" class="m-2" name="edate" placeholder="End Date" [disabled] = "!setDate" [ngModel]="project.EndDate | date: 'yyyy-MM-dd'">
+      </div>
+      <div class="form-group row">
+        <label  for="Priority">Priority:</label>
+        <div>
+          <label for="Priority" class="labelnomargin">0</label>
+          <label for="Priority" class="float-right labelnomargin">30</label>
+          <input type="range" class="slider" id="Priority" name="Priority" min="0" max="30" [(ngModel)]="project.Priority">
+        </div>
+      </div>
+      
+      <div class="form-group row">
+        <label  for="eid">Manager:</label>
+        <input type="text"  id="mid" name="mid" required [(ngModel)]="managerDetails">
+        <button type="input" data-toggle = "modal" data-target = "#myModal"  (click)="SearchUser()">Search</button>
+
+        
+      </div>
+      <div class="form-group float-sm-right">
+        <button type="submit" class="btn btn-outline-info defaultbutton m-2" (click)='AddUpdateProject()'>{{buttoncaption}}</button>
+        <button type="reset" class="btn btn-outline-warning defaultbutton m-2" (click)='Reset()'>Reset</button>
+      </div>
+    </form>
+  </div>
+  <br>
+  <br>
+</h4>
+<div>
+  <hr class="mainseparator">
+</div>
+<div class="container">
+  <form class="form-horizontal flex">
+    <div class="form-group row">
+      <input type="text" placeholder="Search..." name="term" [(ngModel)]="term">
+    </div>
+
+    <div class="form-group row">
+      <label class=" cenallign ">Sort By:</label>
+      <button class="btn btn-outline-info" (click)="SortByStartDate()">Start Date</button>
+      <button class="btn btn-outline-info" (click)="SortByEndDate()">End Date</button>
+      <button class="btn btn-outline-info" (click)="SortByPriority()">Priority</button>
+      <button class="btn btn-outline-info" (click)="SortByCompleted()">Completed</button>
+    </div>
+  </form>
+
+
+
+  <div *ngFor="let pjt of projects | filter: term | orderBy: sortby">
+    <div class = "col-sm-12 row">
+  <div class="greyback">
+    <div class="row">
+      <label class=" col-sm-8" id="lpname"> Project: <b> {{pjt.ProjectName}} </b></label>
+    </div>
+    <br>
+    <div class="row">
+      <label class="col-sm-6 " id="lnumtask">No. of Tasks: <b> 0 </b></label> <!-- Fix me-->
+      <label class="col-sm-6 " id="lissuspend">Completed: <b> {{pjt.IsSuspended}} </b></label>
+    </div>
+    <br>
+    <div class="row">
+      <label class="col-sm-6 " id="lstdate">Start Date: <b> {{pjt.StartDate | date : 'shortDate'}} </b></label>
+      <label class="col-sm-6 " id="lenddate">End Date: <b> {{pjt.EndDate | date : 'shortDate'}} </b></label>
+    </div>
+  </div>
+
+  <div class=" col-sm-1">
+      <label class=" col-sm-12" id="lpriority"> Priority</label>
+      <div class="greyback">       
+      <br>
+      <br>
+        <label id="lpriorityval"><b> {{pjt.Priority}} </b></label>
+      </div>
+   </div>
+
+   <div class="col-sm-4 text-right">
+      <button type="submit" class="btn btn-default defaultbutton m-2" (click)='EditProject(pjt.ProjectId)'>Update</button>
+      <button type="reset" class="btn btn-default defaultbutton m-2" flex="25" (click)='SuspendProject(pjt)'>Suspend</button>
+    </div>
+  </div>
+  <hr style="border-top:dotted 1px; color:black">
+  </div>
+
+
+</div>
+
+<ngx-smart-modal #myModal identifier="myModal">
+  <h3>Select the Project Manager</h3>
+  <ul id="grouplist" class="list-group">
+    <li class="list-group-item" [ngClass] = "{'active':selectedUsr ==usr}" (click)="ListClick($event,usr)"   *ngFor="let usr of users">{{usr.EmployeeId}} - {{usr.FirstName}} {{usr.LastName}}</li>
+  </ul>
+  <br>
+  <button (click)="SelectUser()">Select</button>
+
+</ngx-smart-modal>

@@ -1,0 +1,102 @@
+<br>
+<br>
+  <div class="container">
+      <h4>
+          <div class="form-group row">
+            <label class=" col-sm-2" for="project">Project:</label>
+            <div class="col-sm-5">
+              <input type="text"  id="project" name="project" value= {{projectDetails}}>
+            </div>
+            <button class="btn btn-outline-btn-default " data-toggle = "modal" data-target = "#pjtModal"  (click)="SearchProject()">Search</button>
+          </div>
+        </h4>
+    <h4>
+    <div class="form-group row">
+      <label class=" col-sm-2" for="task">Task:</label>
+      <div class="col-sm-10">
+        <input type="text"  id="task" name="task" [(ngModel)] = "task.TaskName" >
+      </div>
+    </div>
+  </h4>
+  <div class="form-group row">
+  <label class=" col-sm-2 m-2"></label>
+  <input type="checkbox" class="checkbox cenallign m-2" id="setparent" name="setparent" [(ngModel)]="task.IsParentTask">
+  <p class="cenallign col-sm-3 m-2">Parent Task</p>
+  </div>
+    <div class="form-group row">
+
+      <label class=" col-sm-2" for="Priority"><h4>Priority:</h4></label>
+
+      <div class="col-sm-10">
+        <!-- <input type="text"  id="Priority" name="Priority"> -->
+        <label for="Priority"class="labelnomargin">0</label>
+        <label for="Priority" class="float-right labelnomargin" >30</label>
+        <input type="range" class=" slider" id="Priority" name="Priority" min="0" max="30" [(ngModel)] = "task.Priority">        
+      </div>
+    </div>
+    <h4>
+    <div class="form-group row">
+      <label class=" col-sm-2" for="ParentTaskName">Parent Task:</label>
+      <div class="col-sm-5">
+        <input type="text"  id="ParentTaskName" name="ParentTaskName" value ={{parentDetails}}>
+      </div>
+      <button class="btn btn-default " data-toggle = "modal" data-target = "#parModal"  (click)="SearchParent()">Search</button>
+    </div>
+    <div class="form-group row">
+      <label class=" col-sm-2" for="StartDate">Start Date:</label>
+      <div class="col-sm-4">
+        <input type="date"  id="StartDate" name="StartDate" [ngModel] = "task.StartDate | date: 'yyyy-MM-dd'" >
+      </div>
+       <label class=" col-sm-2" for="EndDate">End Date:</label>
+      <div class="col-sm-4">
+        <input type="date"  id="EndDate" name="EndDate" [ngModel] = "task.EndDate | date: 'yyyy-MM-dd'">
+      </div>
+    </div>
+  </h4>
+
+  <div class="form-group row">
+      <label class=" col-sm-2" for="user">User:</label>
+      <div class="col-sm-5">
+        <input type="text"  id="user" name="user" value={{userDetails}}>
+      </div>
+      <button class="btn btn-default" data-toggle = "modal" data-target = "#usrModal"  (click)="SearchUser()">Search</button>
+    </div>
+    <div class="form-group text-center float-sm-right col-sm-12">
+        <button  class="btn btn-outline-info col-sm-2 m-2 text-center myborder float-sm-right" (click)='AddUpdate()'>{{buttonCaption}}</button>
+        <button class="btn btn-outline-warning col-sm-2 m-2 myborder float-sm-right"  (click)='Cancel()'>Cancel</button>
+      </div>
+ 
+  </div>
+
+
+  <ngx-smart-modal #pjtModal identifier="pjtModal">
+    <h3>Select the Project</h3>
+    <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedPjt ==pjt}" (click)="ClickPjt($event,pjt)"   *ngFor="let pjt of projects">{{pjt.ProjectId}} - {{pjt.ProjectName}}</li>
+    </ul>
+    <br>
+    <button (click)="SelectProject()">Select</button>
+  
+  </ngx-smart-modal>
+
+
+  <ngx-smart-modal #parModal identifier="parModal">
+    <h3>Select the Project Task</h3>
+    <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedPar ==par}" (click)="ClickPar($event,par)"   *ngFor="let par of parents">{{par.TaskId}} - {{par.TaskName}}</li>
+    </ul>
+    <br>
+    <button (click)="SelectParent()">Select</button>
+  
+  </ngx-smart-modal>
+
+
+  <ngx-smart-modal #usrModal identifier="usrModal">
+    <h3>Select the Owner</h3>
+    <ul id="grouplist" class="list-group">
+      <li class="list-group-item" [ngClass] = "{'active':selectedUsr ==usr}" (click)="ClickUsr($event,usr)"   *ngFor="let usr of users">{{usr.EmployeeId}} - {{usr.FirstName}} {{usr.LastName}}</li>
+    </ul>
+    <br>
+    <button (click)="SelectUser()">Select</button>
+  
+  </ngx-smart-modal>
