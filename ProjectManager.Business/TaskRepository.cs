@@ -34,9 +34,9 @@ namespace ProjectManager.Business
             }
 
         }
-        public User GetTask(int taskId) // TODO - is this required?
+        public Task GetTask(int taskId) // TODO - is this required?
         {
-            var entity = _context.users.Find(taskId);
+            var entity = _context.tasks.Find(taskId);
             return entity;
         }
         public bool DeleteTask(int taskId)
